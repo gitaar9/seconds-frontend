@@ -1,0 +1,15 @@
+version: '2.0'
+
+services:
+
+  example:
+    container_name: seconds-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '4200:4200'
+    network_mode: "host"
