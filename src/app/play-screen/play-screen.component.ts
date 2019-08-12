@@ -19,18 +19,6 @@ export class PlayScreenComponent implements OnInit {
     ngOnDestroy() {
     }
 
-    leaveGame() {
-        this.gameService.leaveGame().subscribe(
-          () => this.update.emit('update')
-        );
-    }
-
-    collectUpdates(event: string) {
-        if (event === 'update') {
-            this.update.emit(event);
-        }
-    }
-
     myTeam() {
         return this.game.teams.find(team => team.is_my_team);
     }
@@ -41,13 +29,6 @@ export class PlayScreenComponent implements OnInit {
 
     currentlyPlaying() {
         return this.game.teams.find(t => t.currently_playing).players.find(p => p.currently_playing);
-    }
-
-    nextPlayer() {
-        this.gameService.completeTurn(1).subscribe(
-            () => this.update.emit('update'),
-            error => console.log(error)
-        );
     }
 
     startReadingCard() {

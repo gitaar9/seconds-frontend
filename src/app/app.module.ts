@@ -16,6 +16,7 @@ import {LobbyTeamComponent} from './lobby/team/lobby-team.component';
 import {LobbyComponent} from './lobby/lobby.component';
 import {PlayScreenComponent} from './play-screen/play-screen.component';
 import {AdminScreenComponent} from './admin-screen/admin-screen.component';
+import {EndScreenComponent} from './end-screen/end-screen.component';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import {AdminScreenComponent} from './admin-screen/admin-screen.component';
         LobbyTeamComponent,
         LobbyComponent,
         PlayScreenComponent,
+        EndScreenComponent,
         AdminScreenComponent
     ],
     providers: [

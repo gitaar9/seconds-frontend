@@ -9,6 +9,8 @@ import {OptionalWord} from '../_models/word';
 export class AdminScreenComponent implements OnInit, OnDestroy {
     me: User;
     optionalWord: OptionalWord;
+    optionalEnglishWord: OptionalWord;
+    stats: {};
 
     constructor(private authenticationService: AuthenticationService, private userService: UserService,
                 private wordService: WordService) {
@@ -18,32 +20,53 @@ export class AdminScreenComponent implements OnInit, OnDestroy {
         this.userService.getMe().subscribe(
             response => this.me = response
         );
-        this.getNewOptionalWord();
-    }
-
-    getNewOptionalWord() {
-        this.wordService.getOptionalWord().subscribe(
-            response => this.optionalWord = response,
+        this.wordService.statistics().subscribe(
+            response => this.stats = response,
             error => console.log(error)
         );
+        this.getNewOptionalWord(true);
+        this.getNewOptionalWord(false);
     }
 
-    skipWord() {
-        this.wordService.skipOptionalWord().subscribe(
-            (/*succes*/) => this.getNewOptionalWord(),
-            error => console.log(error)
-        );
+    getNewOptionalWord(isDutch: boolean) {
+        if (isDutch) {
+            this.wordService.getOptionalWord().subscribe(
+                response => this.optionalWord = response,
+                error => console.log(error)
+            );
+        } else {
+            this.wordService.getOptionalEnglishWord().subscribe(
+                response => this.optionalEnglishWord = response,
+                error => console.log(error)
+            );
+        }
     }
 
-    addWord(difficulty: number) {
+    skipWord(isDutch: boolean) {
+        if (isDutch) {
+            this.wordService.skipOptionalWord().subscribe(
+                (/*succes*/) => this.getNewOptionalWord(isDutch),
+                error => console.log(error)
+            );
+        } else {
+            this.wordService.skipOptionalEnglishWord().subscribe(
+                (/*succes*/) => this.getNewOptionalWord(isDutch),
+                error => console.log(error)
+            );
+        }
+    }
+
+    addWord(difficulty: number, language: string) {
         const word = {
-            word: this.optionalWord.word,
+            word: (language === 'NL') ? this.optionalWord.word : this.optionalEnglishWord.word,
             added_by: this.me.username,
             difficulty,
-            language: 'NL'
+            language
         };
         this.wordService.createNewWord(word).subscribe(
-            (/*succes*/) => this.getNewOptionalWord(),
+            (/*succes*/) => {
+                this.getNewOptionalWord(language === 'NL');
+            },
             error => console.log(error)
         );
     }

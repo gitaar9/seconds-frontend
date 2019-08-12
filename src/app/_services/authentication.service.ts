@@ -32,7 +32,7 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/oauth2/token/`, body)
             .pipe(map(response => {
                 // login successful if there's a jwt token in the response
-                console.log(JSON.stringify(response));
+                // console.log(JSON.stringify(response));
                 if (response && response.access_token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentToken', JSON.stringify(response));

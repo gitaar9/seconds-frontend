@@ -1,6 +1,6 @@
 ﻿
 <div *ngIf="!game" class="row center-align">
-  <div class="col s12 m6">
+  <div class="col s12 m6 offset-m3">
     <div class="card blue-grey darken-1">
       <div class="card-content white-text">
         <div  class="row">
@@ -10,7 +10,7 @@
         </div>
         <div class="divider"></div>
         <br>
-        <div class="row">
+        <div class="row no-bottom-margin">
           <form #joinGameForm="ngForm" (ngSubmit)="submitJoinGameForm(joinGameForm.form);" class="valign-wrapper">
             <div class="col s6 m8">
               <input type="text" class="form-control" name="code" ngModel #codeField="ngModel" placeholder="Game code">
@@ -32,3 +32,8 @@
 <div *ngIf="game && game.state == 'PLA'">
   <play-screen [game]="game" (update)="collectUpdates($event)"></play-screen>
 </div>
+
+<div *ngIf="game && game.state == 'END'">
+  <end-screen [game]="game" (update)="collectUpdates($event)"></end-screen>
+</div>
+

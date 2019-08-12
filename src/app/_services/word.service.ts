@@ -17,11 +17,24 @@ export class WordService {
         return this.http.delete<{}>(`${environment.apiUrl}/optional_word/skip_one/`);
     }
 
+    getOptionalEnglishWord() {
+        return this.http.get<OptionalWord>(`${environment.apiUrl}/optional_word/get_english_one/`);
+    }
+
+    skipOptionalEnglishWord() {
+        return this.http.delete<{}>(`${environment.apiUrl}/optional_word/skip_english_one/`);
+    }
+
+
     createNewWord(word: Word) {
         return this.http.post<Word>(`${environment.apiUrl}/word/`, word);
     }
 
     removeWord(word: string) {
         return this.http.post<{}>(`${environment.apiUrl}/word/delete_by_string/`, {word});
+    }
+
+    statistics() {
+        return this.http.get<{}>(`${environment.apiUrl}/word/statistics/`);
     }
 }
