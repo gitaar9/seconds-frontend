@@ -2,7 +2,7 @@
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Game} from '../_models/game';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 
 @Injectable({ providedIn: 'root' })
@@ -44,4 +44,9 @@ export class GameService {
     completeTurn(score) {
         return this.http.post<{}>(`${environment.apiUrl}/game/complete_turn/`, {score});
     }
+
+    changeLanguage(language: string) {
+        return this.http.patch<Game>(`${environment.apiUrl}/game/update_game/`, {language});
+    }
+
 }

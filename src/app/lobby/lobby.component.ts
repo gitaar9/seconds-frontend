@@ -5,6 +5,7 @@ import {TeamService} from '../_services/team.service';
 
 @Component({
   templateUrl: 'lobby.component.html',
+  styleUrls: ['lobby.component.css'],
   selector: 'lobby'
 })
 export class LobbyComponent implements OnInit {
@@ -51,6 +52,13 @@ export class LobbyComponent implements OnInit {
 
     startGame() {
         this.gameService.startGame().subscribe(
+            () => this.update.emit('update'),
+            error => console.log(error)
+        );
+    }
+
+    changeLanguageSwitch(event) {
+        this.gameService.changeLanguage((event.target.checked) ? 'UK' : 'NL').subscribe(
             () => this.update.emit('update'),
             error => console.log(error)
         );

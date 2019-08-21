@@ -24,4 +24,5 @@ export class Game {
     code: string;
     teams: Team[];
     state: string;
+    language: string;
 }
