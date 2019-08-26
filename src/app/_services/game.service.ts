@@ -25,6 +25,10 @@ export class GameService {
         return this.http.get<Game>(`${environment.apiUrl}/game/`).pipe(map(GameService.addIsMyTeam));
     }
 
+    spectateGame(gameCode: string) {
+        return this.http.get<Game>(`${environment.apiUrl}/game/${gameCode}/spectate/`);
+    }
+
     leaveGame() {
         return this.http.delete<{}>(`${environment.apiUrl}/game/leave_game/`);
     }

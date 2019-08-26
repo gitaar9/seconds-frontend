@@ -1,0 +1,11 @@
+﻿<div *ngIf="game && game.teams" class="row">
+  <div class="col s12">
+    <div style="position: relative; left: 0; top: 0;">
+      <img src="assets/images/board_v1.png" class="board"/>
+
+      <img *ngFor="let team of game.teams; let i = index" src="assets/images/{{team.pion_filename}}" class="pion place{{team.score}}team{{i}}"/>
+
+      <span class="timeleft">{{timeLeftBeforeEndOfTurn()/1000}}</span>
+    </div>
+  </div>
+</div>

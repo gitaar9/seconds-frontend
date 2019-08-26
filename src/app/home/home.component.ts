@@ -8,6 +8,7 @@ import {GameService} from '../_services/game.service';
 export class HomeComponent implements OnInit, OnDestroy {
     me: User;
     currentlyInGame = false;
+    gameCode = '';
     constructor(private authenticationService: AuthenticationService, private userService: UserService,
                 private gameService: GameService) {
     }
@@ -17,7 +18,10 @@ export class HomeComponent implements OnInit, OnDestroy {
             response => this.me = response
         );
         this.gameService.getGame().subscribe(
-            (/*succes*/) => this.currentlyInGame = true,
+            (response) => {
+              this.currentlyInGame = true;
+              this.gameCode = response.code;
+            },
             (/*error*/) => this.currentlyInGame = false
         );
     }

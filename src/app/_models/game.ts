@@ -18,6 +18,7 @@ export class Team {
     score: number;
     currently_playing: boolean;
     is_my_team: boolean;
+    pion_filename: string;
 }
 
 export class Game {

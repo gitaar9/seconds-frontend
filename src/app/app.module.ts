@@ -17,6 +17,8 @@ import {LobbyComponent} from './lobby/lobby.component';
 import {PlayScreenComponent} from './play-screen/play-screen.component';
 import {AdminScreenComponent} from './admin-screen/admin-screen.component';
 import {EndScreenComponent} from './end-screen/end-screen.component';
+import {SpectateComponent} from './spectate/spectate.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
@@ -24,7 +26,8 @@ import {EndScreenComponent} from './end-screen/end-screen.component';
         ReactiveFormsModule,
         HttpClientModule,
         routing,
-        FormsModule
+        FormsModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
@@ -37,7 +40,8 @@ import {EndScreenComponent} from './end-screen/end-screen.component';
         LobbyComponent,
         PlayScreenComponent,
         EndScreenComponent,
-        AdminScreenComponent
+        AdminScreenComponent,
+        SpectateComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
