@@ -25,8 +25,13 @@ export class GameService {
         return this.http.get<Game>(`${environment.apiUrl}/game/`).pipe(map(GameService.addIsMyTeam));
     }
 
-    spectateGame(gameCode: string) {
-        return this.http.get<Game>(`${environment.apiUrl}/game/${gameCode}/spectate/`);
+    spectateGame(gameCode: string, sortByPk = true) {
+        return this.http.get<Game>(`${environment.apiUrl}/game/${gameCode}/spectate/`).pipe(map(game => {
+            if (sortByPk) {
+                game.teams.sort((left, right) => left.id - right.id);
+            }
+            return game;
+        }));
     }
 
     leaveGame() {

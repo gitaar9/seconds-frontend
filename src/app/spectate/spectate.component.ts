@@ -11,31 +11,15 @@ import {
   transition,
   // ...
 } from '@angular/animations';
+import {Locations} from './locations';
 @Component({
   templateUrl: 'spectate.component.html',
   styleUrls: ['spectate.component.css'],
   selector: 'spectate',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger('team0location', [
-      // ...
-      state('place0team0', style({
-        height: '200px',
-        opacity: 1,
-        backgroundColor: 'yellow'
-      })),
-      state('closed', style({
-        height: '100px',
-        opacity: 0.5,
-        backgroundColor: 'green'
-      })),
-      transition('open => closed', [
-        animate('1s')
-      ]),
-      transition('closed => open', [
-        animate('0.5s')
-      ]),
-    ]),
+    trigger('team0location', Locations.team0location),
+    trigger('team1location', Locations.team1location),
   ]
 })
 export class SpectateComponent implements OnInit {
