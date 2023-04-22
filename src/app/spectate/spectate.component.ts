@@ -20,6 +20,8 @@ import {Locations} from './locations';
   animations: [
     trigger('team0location', Locations.team0location),
     trigger('team1location', Locations.team1location),
+    trigger('team2location', Locations.team2location),
+    trigger('team3location', Locations.team3location),
   ]
 })
 export class SpectateComponent implements OnInit {
