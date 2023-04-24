@@ -3,7 +3,7 @@ import { Observable, Observer } from 'rxjs';
 import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {environment} from '../../environments/environment';
+import {environment} from '../../environments/environment.prod';
 import {Game} from '../_models/game';
 
 

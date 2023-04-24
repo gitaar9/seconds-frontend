@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {environment} from '../../environments/environment';
+import {environment} from '../../environments/environment.prod';
 import {Router} from '@angular/router';
 import {Token} from '../_models/token';
 
