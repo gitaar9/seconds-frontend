@@ -23,9 +23,9 @@ export class WebsocketService {
         const token = JSON.parse(localStorage.getItem('currentToken'));
         let CHAT_URL:string = ""
         if (game_code === "")
-            CHAT_URL = `ws://${environment.apiIp}/ws/chat/lobby/?token=${token.access_token}`;
+            CHAT_URL = `ws://${environment.apiIp}/ws/game_updates/?token=${token.access_token}`;
         else
-            CHAT_URL = `ws://${environment.apiIp}/ws/chat/lobby/?game_code=${game_code}`;
+            CHAT_URL = `ws://${environment.apiIp}/ws/game_updates/?game_code=${game_code}`;
 
         this.game_updates = <Subject<Game>>this.connect(CHAT_URL).pipe(
             map(
