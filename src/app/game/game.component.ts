@@ -1,28 +1,41 @@
 ﻿import {Component, OnInit} from '@angular/core';
-import {Game} from '../_models/game';
+import {Game, Player, Team} from '../_models/game';
 import {GameService} from '../_services/game.service';
 import {interval, Observable, Subscription} from 'rxjs';
+import {UserService} from "../_services";
+import { WebsocketService } from "../_services/websocket.service";
+import {User} from "../_models";
 
 @Component({
   templateUrl: 'game.component.html',
-  selector: 'game'
+  selector: 'game',
+  providers: [WebsocketService]
 })
 export class GameComponent implements OnInit {
     game: Game;
+    me: User;
     intervalSource: Observable<number>;
     intervalSubscription: Subscription;
+    game_updates_subscription: Subscription;
 
-    constructor(private gameService: GameService) {
+    constructor(private websocketService: WebsocketService, private userService: UserService,
+                private gameService: GameService) {
     }
 
     ngOnInit() {
+        this.userService.getMe().subscribe(
+            response => this.me = response
+        );
         this.loadGame();
+        this.refreshWebsocketConnection();
         this.intervalSource = interval(3000);
-        this.intervalSubscription = this.intervalSource.subscribe(() => this.loadGame());
+        this.intervalSubscription = this.intervalSource.subscribe(() => this.checkWebsocketConnection());
     }
 
     ngOnDestroy() {
         this.intervalSubscription.unsubscribe();
+        this.game_updates_subscription.unsubscribe();
+        this.websocketService.close()
     }
 
     newGame() {
@@ -32,14 +45,8 @@ export class GameComponent implements OnInit {
         );
     }
 
-    collectUpdates(event: string) {
-        if (event === 'update') {
-            this.loadGame();
-        }
-    }
-
     timeLeftBeforeEndOfTurn() {
-        if (this.game == null || this.game.state === 'LOB' || this.game.state === 'END'
+        if (this.game == null || this.game.state === 'LOB' || this.game.state === 'END' //|| !this.game.teams
             || this.game.teams.find(t => t.currently_playing) == null) {
             return 0;
         }
@@ -47,6 +54,10 @@ export class GameComponent implements OnInit {
     }
 
     decreaseTimeLeftBeforeEndOfTurn(amount: number) {
+        if (this.game == null || this.game.state === 'LOB' || this.game.state === 'END'
+            || this.game.teams.find(t => t.currently_playing) == null) {
+            return 0;
+        }
         const currentTeamIdx = this.game.teams.findIndex(t => t.currently_playing);
         const currentPlayerIdx = this.game.teams[currentTeamIdx].players.findIndex(p => p.currently_playing);
         this.game.teams[currentTeamIdx].players[currentPlayerIdx].time_left -= amount;
@@ -85,5 +96,48 @@ export class GameComponent implements OnInit {
             () => this.loadGame(),
             error => console.log(error)
         );
+    }
+
+    updateGameWithIsMe(game: Game): Game {
+        if (!game || !game.teams)
+            return game;
+        game.teams = game.teams.map((team: Team) => {
+            team.players.map((player: Player) => {
+                player.is_me = player.username === this.me.username
+            });
+            team.is_my_team = team.players.some((player: Player) => player.is_me);
+            return team;
+        });
+        return game;
+    }
+
+    isWebsocketOpen() {
+        return this.websocketService.ws.readyState === this.websocketService.ws.OPEN
+    }
+
+    checkWebsocketConnection() {
+        /* This function checks if the websocket connection is still healthy and restart the connection if not */
+        console.log(this.websocketService.ws.readyState);
+        if (this.websocketService.ws.readyState === this.websocketService.ws.CLOSED) {
+            this.game_updates_subscription.unsubscribe();
+            this.refreshWebsocketConnection();
+        }
+    }
+
+    subscribeToWebsocket() {
+        this.game_updates_subscription = this.websocketService.game_updates.subscribe((new_game_state: Game) => {
+            new_game_state = this.updateGameWithIsMe(new_game_state);
+            this.game = new_game_state;
+            if (this.timeLeftBeforeEndOfTurn() > 0) {
+                this.countDownFunction();
+            }
+            console.log(new_game_state);
+        });
+    }
+
+    refreshWebsocketConnection() {
+        this.websocketService = new WebsocketService();
+        this.websocketService.setupConnection();
+        this.subscribeToWebsocket();
     }
 }

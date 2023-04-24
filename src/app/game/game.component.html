@@ -12,10 +12,10 @@
         <br>
         <div class="row no-bottom-margin">
           <form #joinGameForm="ngForm" (ngSubmit)="submitJoinGameForm(joinGameForm.form);" class="valign-wrapper">
-            <div class="col s6 m8">
+            <div class="col s5 m8">
               <input type="text" class="form-control" name="code" ngModel #codeField="ngModel" placeholder="Game code">
             </div>
-            <div class="col s6 m4">
+            <div class="col s7 m4">
               <button href="#!" class="btn btn-primary">Join game</button>
             </div>
           </form>
@@ -25,15 +25,19 @@
   </div>
 </div>
 
-<div *ngIf="game && game.state == 'LOB'">
-  <lobby [game]="game" (update)="collectUpdates($event)"></lobby>
-</div>
+<div *ngIf="game && isWebsocketOpen()">
+  <div *ngIf="game && game.state == 'LOB'">
+    <lobby [game]="game"></lobby>
+  </div>
 
-<div *ngIf="game && game.state == 'PLA'">
-  <play-screen [game]="game" (update)="collectUpdates($event)"></play-screen>
-</div>
+  <div *ngIf="game && game.state == 'PLA'">
+    <play-screen [game]="game"></play-screen>
+  </div>
 
-<div *ngIf="game && game.state == 'END'">
-  <end-screen [game]="game" (update)="collectUpdates($event)"></end-screen>
+  <div *ngIf="game && game.state == 'END'">
+    <end-screen [game]="game"></end-screen>
+  </div>
 </div>
-
+<div *ngIf="game && !isWebsocketOpen()">
+  Loading game..
+</div>

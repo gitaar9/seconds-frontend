@@ -14,13 +14,26 @@ export class WebsocketService {
     public ws: WebSocket;
 
     constructor() {
+    }
+
+    public close() {
+        this.ws.close()
+    }
+    public setupConnection(game_code: string = "") {
         const token = JSON.parse(localStorage.getItem('currentToken'));
-        const CHAT_URL = `ws://${environment.apiIp}/ws/chat/lobby/?token=${token.access_token}`;
+        let CHAT_URL:string = ""
+        if (game_code === "")
+            CHAT_URL = `ws://${environment.apiIp}/ws/chat/lobby/?token=${token.access_token}`;
+        else
+            CHAT_URL = `ws://${environment.apiIp}/ws/chat/lobby/?game_code=${game_code}`;
+
         this.game_updates = <Subject<Game>>this.connect(CHAT_URL).pipe(
             map(
                 (response: MessageEvent): Game => {
                     console.log(response.data);
                     let data = JSON.parse(response.data)
+                    if (!data)
+                        return null;
                     return data.game;
                 }
             )
@@ -37,6 +50,7 @@ export class WebsocketService {
 
     private create(url): AnonymousSubject<MessageEvent> {
         this.ws = new WebSocket(url);
+
         let observable = new Observable((obs: Observer<MessageEvent>) => {
             this.ws.onmessage = obs.next.bind(obs);
             this.ws.onerror = obs.error.bind(obs);

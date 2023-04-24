@@ -1,6 +1,7 @@
-﻿import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+﻿import {Component, Input, OnInit} from '@angular/core';
 import {Game} from '../_models/game';
 import {GameService} from '../_services/game.service';
+import {Router} from '@angular/router';
 
 @Component({
   templateUrl: 'end-screen.component.html',
@@ -8,9 +9,8 @@ import {GameService} from '../_services/game.service';
 })
 export class EndScreenComponent implements OnInit {
     @Input() game: Game;
-    @Output() update: EventEmitter<string> = new EventEmitter<string>();
 
-    constructor(private gameService: GameService) {
+    constructor(private gameService: GameService, private router: Router) {
     }
 
     ngOnInit() {
@@ -21,7 +21,7 @@ export class EndScreenComponent implements OnInit {
 
     leaveGame() {
         this.gameService.leaveGame().subscribe(
-          () => this.update.emit('update')
+            () => this.router.navigate([''])
         );
     }
 }

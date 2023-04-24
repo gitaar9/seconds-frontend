@@ -19,7 +19,6 @@ import {AdminScreenComponent} from './admin-screen/admin-screen.component';
 import {EndScreenComponent} from './end-screen/end-screen.component';
 import {SpectateComponent} from './spectate/spectate.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ChatComponent} from './chat/chat.component';
 
 @NgModule({
     imports: [
@@ -42,8 +41,7 @@ import {ChatComponent} from './chat/chat.component';
         PlayScreenComponent,
         EndScreenComponent,
         AdminScreenComponent,
-        SpectateComponent,
-        ChatComponent
+        SpectateComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

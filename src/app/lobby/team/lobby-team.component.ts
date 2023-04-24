@@ -30,7 +30,7 @@ export class LobbyTeamComponent implements OnInit {
 
     deleteTeam() {
         this.teamService.deleteTeam(this.team.id).subscribe(
-            response => this.update.emit('update'),
+            response => null,
             error => console.log(error)
         );
     }
@@ -45,7 +45,7 @@ export class LobbyTeamComponent implements OnInit {
 
     joinTeam() {
         this.teamService.joinTeam(this.team.id).subscribe(
-            response => this.update.emit('update'),
+            response => null,
             error => console.log(error)
         );
     }

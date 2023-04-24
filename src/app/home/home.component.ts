@@ -19,8 +19,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         );
         this.gameService.getGame().subscribe(
             (response) => {
-              this.currentlyInGame = true;
-              this.gameCode = response.code;
+                if (!response)
+                    return
+                this.currentlyInGame = true;
+                this.gameCode = response.code;
             },
             (/*error*/) => this.currentlyInGame = false
         );

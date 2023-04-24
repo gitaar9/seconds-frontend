@@ -1,4 +1,4 @@
-﻿import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+﻿import {Component, Input, OnInit} from '@angular/core';
 import {Game} from '../_models/game';
 import {GameService} from '../_services/game.service';
 
@@ -8,7 +8,6 @@ import {GameService} from '../_services/game.service';
 })
 export class PlayScreenComponent implements OnInit {
     @Input() game: Game;
-    @Output() update: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(private gameService: GameService) {
     }
@@ -33,7 +32,7 @@ export class PlayScreenComponent implements OnInit {
 
     startReadingCard() {
         this.gameService.startReadingCard().subscribe(
-            () => this.update.emit('update'),
+            () => null,
             error => console.log(error)
         );
     }
@@ -46,7 +45,7 @@ export class PlayScreenComponent implements OnInit {
             }
         }
         this.gameService.completeTurn(answeredCorrect).subscribe(
-            () => this.update.emit('update'),
+            () => null,
             error => console.log(error)
         );
     }

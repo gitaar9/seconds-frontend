@@ -10,6 +10,8 @@ export class GameService {
     constructor(private http: HttpClient) { }
 
     static addIsMyTeam(game) {
+        if (!game || !game.teams)
+            return null;
         game.teams = game.teams.map((team) => {
             team.is_my_team = team.players.some((player) => player.is_me);
             return team;
