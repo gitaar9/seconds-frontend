@@ -16,25 +16,33 @@ export class GameComponent implements OnInit {
     me: User;
     intervalSource: Observable<number>;
     intervalSubscription: Subscription;
-    game_updates_subscription: Subscription;
+    game_updates_subscription: Subscription = null;
 
     constructor(private websocketService: WebsocketService, private userService: UserService,
                 private gameService: GameService) {
     }
 
     ngOnInit() {
-        this.userService.getMe().subscribe(
-            response => this.me = response
-        );
+        this.getMeAndCheckIfInGameToMakeWSConnection();
         this.loadGame();
-        this.refreshWebsocketConnection();
         this.intervalSource = interval(3000);
         this.intervalSubscription = this.intervalSource.subscribe(() => this.checkWebsocketConnection());
     }
 
+    getMeAndCheckIfInGameToMakeWSConnection() {
+        this.userService.getMe().subscribe(
+            (response) => {
+                this.me = response;
+                if (this.me.in_game) {
+                    this.refreshWebsocketConnection();
+                }
+            }
+        );
+    }
     ngOnDestroy() {
         this.intervalSubscription.unsubscribe();
-        this.game_updates_subscription.unsubscribe();
+        if (this.game_updates_subscription != null)
+            this.game_updates_subscription.unsubscribe();
         this.websocketService.close()
     }
 
@@ -112,15 +120,17 @@ export class GameComponent implements OnInit {
     }
 
     isWebsocketOpen() {
-        return this.websocketService.ws.readyState === this.websocketService.ws.OPEN
+        return this.websocketService.ws != null && this.websocketService.ws.readyState === this.websocketService.ws.OPEN;
     }
 
     checkWebsocketConnection() {
         /* This function checks if the websocket connection is still healthy and restart the connection if not */
-        console.log(this.websocketService.ws.readyState);
-        if (this.websocketService.ws.readyState === this.websocketService.ws.CLOSED) {
-            this.game_updates_subscription.unsubscribe();
-            this.refreshWebsocketConnection();
+        if (this.websocketService.ws)
+            console.log(this.websocketService.ws.readyState);
+        if (this.websocketService.ws == null || this.websocketService.ws.readyState === this.websocketService.ws.CLOSED) {
+            if (this.game_updates_subscription)
+                this.game_updates_subscription.unsubscribe();
+            this.getMeAndCheckIfInGameToMakeWSConnection();
         }
     }
 
