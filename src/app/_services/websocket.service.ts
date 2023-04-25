@@ -11,13 +11,14 @@ import {Game} from '../_models/game';
 export class WebsocketService {
     private subject: AnonymousSubject<MessageEvent>;
     public game_updates: Subject<Game>;
-    public ws: WebSocket;
+    public ws: WebSocket = null;
 
     constructor() {
     }
 
     public close() {
-        this.ws.close()
+        if (this.ws != null)
+            this.ws.close()
     }
     public setupConnection(game_code: string = "") {
         const token = JSON.parse(localStorage.getItem('currentToken'));
