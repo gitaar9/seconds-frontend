@@ -60,9 +60,13 @@ export class Game {
     }
 
     static serialize(d: Object): Game {
-        let o: Game = Object.assign(new Game(), d);
-        o.teams = o.teams.map( (team: Team): Team => {return Team.serialize(team)})
-        return o;
+        if (d) {
+            let o: Game = Object.assign(new Game(), d);
+            o.teams = o.teams.map( (team: Team): Team => {return Team.serialize(team)})
+            return o;
+        } else {
+            return null;
+        }
     }
 
     public currentPlayer(): Player {

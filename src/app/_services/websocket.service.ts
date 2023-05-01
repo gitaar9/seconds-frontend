@@ -32,9 +32,7 @@ export class WebsocketService {
             map(
                 (response: MessageEvent): Game => {
                     let data = JSON.parse(response.data)
-                    if (!data)
-                        return null;
-                    return Game.serialize(data.game);
+                    return (data && data.game) ? Game.serialize(data.game) : null;
                 }
             )
         );
