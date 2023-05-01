@@ -1,7 +1,7 @@
 ﻿<div *ngIf="turnState() === 'NOT_MY_TURN'">
   <div class="row">
     <div class="col s12 m6 offset-m3" *ngIf="myTeam().currently_playing">
-      <span>Pay close attention to {{currentlyPlaying(myTeam()).username}}</span>
+      <span>Pay close attention to {{currentlyPlaying().username}}</span>
     </div>
   </div>
 
@@ -18,7 +18,7 @@
           </ul>
         </div>
         <div class="card-action">
-          <span *ngIf="currentlyPlaying().time_left > 0">Nog {{currentlyPlaying().time_left / 1000 | number:'1.0-0'}} seconden.</span>
+          <span *ngIf="other_time_left > 0">Nog {{other_time_left | number:'1.0-0'}} seconden.</span>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
             </ul>
           </div>
           <div class="card-action">
-            <span>Je hebt nog {{me().time_left / 1000 | number:'1.0-0'}} seconden.</span>
+            <span>Je hebt nog {{my_time_left | number:'1.0-0'}} seconden.</span>
           </div>
         </div>
 

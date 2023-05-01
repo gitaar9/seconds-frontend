@@ -9,7 +9,7 @@
       <img *ngIf="game.teams.length > 3" src="assets/images/{{game.teams[3].pion_filename}}" class="pion" [@team3location]="'place'+game.teams[3].score">
       <!--<img *ngFor="let team of game.teams; let i = index" src="assets/images/{{team.pion_filename}}" class="pion place{{team.score}}team{{i}}"/>
 -->
-      <span class="timeleft">{{timeLeftBeforeEndOfTurn()/1000}}</span>
+      <span class="timeleft">{{timeLeft}}</span>
     </div>
   </div>
 </div>
