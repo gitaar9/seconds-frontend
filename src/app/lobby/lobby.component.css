@@ -1,0 +1,21 @@
+﻿
+/*Dutch color*/
+.switch label .lever::after {
+	background-color: #ff8c00;
+}
+.switch label .lever {
+  background-color: #ffb65a;
+}
+
+/*English color*/
+.switch label input[type="checkbox"]:checked + .lever::after {
+	background-color: #0073ff;
+}
+.switch label input[type="checkbox"]:checked + .lever {
+	/*background-color: #84c7c1;*/
+  background-color: #5aa4ff;
+}
+
+
+
+

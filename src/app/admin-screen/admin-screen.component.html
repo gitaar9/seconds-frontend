@@ -1,41 +1,104 @@
 ﻿<div class="row">
-  <div class="col s12 m6">
+  <div class="col s12 m6 offset-m3">
     <h3>Settings</h3>
   </div>
 </div>
 
 <div class="row">
-  <div class="col s12 m6">
+  <div class="col s12 m6 offset-m3">
     <div class="card blue-grey darken-1">
       <div class="card-content white-text">
         <span class="card-title">Add new words</span>
         <b *ngIf="optionalWord">{{optionalWord.word}}</b>
       </div>
       <div class="card-action">
-        <a (click)="addWord(1)">Easy</a>
-        <a (click)="addWord(2)">Medium</a>
-        <a (click)="addWord(3)">Hard</a>
-        <a (click)="skipWord()">Skip</a>
+        <a (click)="addWord(1, 'NL')">Easy</a>
+        <a (click)="addWord(2, 'NL')">Medium</a>
+        <a (click)="addWord(3, 'NL')">Hard</a>
+        <a (click)="skipWord(true)">Skip</a>
       </div>
     </div>
   </div>
 </div>
 
+<!--<div class="row">-->
+<!--  <div class="col s12 m6 offset-m3">-->
+<!--    <div class="card blue-grey darken-1">-->
+<!--      <div class="card-content white-text">-->
+<!--        <span class="card-title">Remove word</span>-->
+<!--        <div class="row">-->
+<!--          <form #removeWordForm="ngForm" (ngSubmit)="submitRemoveWordForm(removeWordForm.form);" class="valign-wrapper">-->
+<!--            <div class="col s6 m8">-->
+<!--              <input type="text" class="form-control" name="word" ngModel #wordField="ngModel" placeholder="Word">-->
+<!--            </div>-->
+<!--            <div class="col s6 m4">-->
+<!--              <button href="#!" class="btn btn-primary">Remove</button>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
 <div class="row">
-  <div class="col s12 m6">
+  <div class="col s12 m6 offset-m3">
     <div class="card blue-grey darken-1">
       <div class="card-content white-text">
-        <span class="card-title">Remove word</span>
-        <div class="row">
-          <form #removeWordForm="ngForm" (ngSubmit)="submitRemoveWordForm(removeWordForm.form);" class="valign-wrapper">
-            <div class="col s6 m8">
-              <input type="text" class="form-control" name="word" ngModel #wordField="ngModel" placeholder="Word">
-            </div>
-            <div class="col s6 m4">
-              <button href="#!" class="btn btn-primary">Remove</button>
-            </div>
-          </form>
+        <span class="card-title">Remove words</span>
+        <div class="row" *ngFor="let word of this.lastTenUsedWords">
+          <div class="col s6 m8 right-align">
+              {{word.word}}
+          </div>
+          <div class="col s6 m4">
+              <a class="waves-effect waves-light btn" (click)="removeWord(word.word)">Remove</a>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col s12 m6 offset-m3">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title">Add new english words</span>
+        <b *ngIf="optionalEnglishWord">{{optionalEnglishWord.word}}</b>
+      </div>
+      <div class="card-action">
+        <a (click)="addWord(1, 'UK')">Easy</a>
+        <a (click)="addWord(2, 'UK')">Medium</a>
+        <a (click)="addWord(3, 'UK')">Hard</a>
+        <a (click)="skipWord(false)">Skip</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="stats" class="row">
+  <div class="col s12 m6 offset-m3">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title">Word statistics</span>
+        <ul>
+          <li>Total words: {{stats.total_words_count}}</li>
+          <li>Easy words: {{stats.easy_words_count}}</li>
+          <li>Medium words: {{stats.medium_words_count}}</li>
+          <li>Hard words: {{stats.hard_words_count}}</li>
+          <li>Words added by you: {{stats.words_added_by_you}}</li>
+          <br>
+          <li>Optional words left: {{stats.optional_words_count}}</li>
+          <br>
+          <li>Total english words: {{stats.total_english_words}}</li>
+          <li>Easy english words: {{stats.easy_english_words_count}}</li>
+          <li>Medium english words: {{stats.medium_english_words_count}}</li>
+          <li>Hard english words: {{stats.hard_english_words_count}}</li>
+          <br>
+          <li>Optional english words left: {{stats.optional_english_words_count}}</li>
+        </ul>
       </div>
     </div>
   </div>

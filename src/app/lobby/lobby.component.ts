@@ -1,18 +1,19 @@
-﻿import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+﻿import {Component, Input, OnInit} from '@angular/core';
 import {Game} from '../_models/game';
 import {GameService} from '../_services/game.service';
 import {TeamService} from '../_services/team.service';
+import {Router} from '@angular/router';
 
 @Component({
   templateUrl: 'lobby.component.html',
+  styleUrls: ['lobby.component.css'],
   selector: 'lobby'
 })
 export class LobbyComponent implements OnInit {
     selectedTeam: string = '';
     @Input() game: Game;
-    @Output() update: EventEmitter<string> = new EventEmitter<string>();
 
-    constructor(private gameService: GameService, private teamService: TeamService) {
+    constructor(private gameService: GameService, private teamService: TeamService, private router: Router) {
     }
 
     ngOnInit() {
@@ -23,37 +24,39 @@ export class LobbyComponent implements OnInit {
 
     leaveGame() {
         this.gameService.leaveGame().subscribe(
-          () => this.update.emit('update')
+          () => this.router.navigate([''])
         );
     }
 
     collectUpdates(event: string) {
-        if (event === 'update') {
-            this.update.emit(event);
-        } else {
-            this.selectedTeam = event;
-        }
+        this.selectedTeam = event;
     }
 
     submitChangeNameForm(form) {
         this.teamService.changeName(+this.selectedTeam, form.value.teamName).subscribe(
-            () => this.update.emit('update'),
+            () => null,
             error => console.log(error)
         );
     }
 
     addTeam() {
         this.teamService.newTeam().subscribe(
-            () => this.update.emit('update'),
+            () => null,
             error => console.log(error)
         );
     }
 
     startGame() {
         this.gameService.startGame().subscribe(
-            () => this.update.emit('update'),
+            () => null,
             error => console.log(error)
         );
     }
 
+    changeLanguageSwitch(event) {
+        this.gameService.changeLanguage((event.target.checked) ? 'UK' : 'NL').subscribe(
+            () => null,
+            error => console.log(error)
+        );
+    }
 }

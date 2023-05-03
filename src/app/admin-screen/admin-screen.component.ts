@@ -2,13 +2,16 @@
 import {User} from '../_models';
 import {AuthenticationService, UserService} from '../_services';
 import {WordService} from '../_services/word.service';
-import {OptionalWord} from '../_models/word';
+import {OptionalWord, Word} from '../_models/word';
 
 
 @Component({ templateUrl: 'admin-screen.component.html' })
 export class AdminScreenComponent implements OnInit, OnDestroy {
     me: User;
     optionalWord: OptionalWord;
+    optionalEnglishWord: OptionalWord;
+    stats: {};
+    lastTenUsedWords: Word[] = [];
 
     constructor(private authenticationService: AuthenticationService, private userService: UserService,
                 private wordService: WordService) {
@@ -18,39 +21,72 @@ export class AdminScreenComponent implements OnInit, OnDestroy {
         this.userService.getMe().subscribe(
             response => this.me = response
         );
-        this.getNewOptionalWord();
+        this.wordService.statistics().subscribe(
+            response => this.stats = response,
+            error => console.log(error)
+        );
+        this.getNewOptionalWord(true);
+        this.getNewOptionalWord(false);
+        this.getLastTenUsedWords();
     }
 
-    getNewOptionalWord() {
-        this.wordService.getOptionalWord().subscribe(
-            response => this.optionalWord = response,
+    getLastTenUsedWords() {
+        this.wordService.getTenLastUsedWords().subscribe(
+            response => this.lastTenUsedWords = response,
             error => console.log(error)
         );
     }
 
-    skipWord() {
-        this.wordService.skipOptionalWord().subscribe(
-            (/*succes*/) => this.getNewOptionalWord(),
-            error => console.log(error)
-        );
+    getNewOptionalWord(isDutch: boolean) {
+        if (isDutch) {
+            this.wordService.getOptionalWord().subscribe(
+                response => this.optionalWord = response,
+                error => console.log(error)
+            );
+        } else {
+            this.wordService.getOptionalEnglishWord().subscribe(
+                response => this.optionalEnglishWord = response,
+                error => console.log(error)
+            );
+        }
     }
 
-    addWord(difficulty: number) {
+    skipWord(isDutch: boolean) {
+        if (isDutch) {
+            this.wordService.skipOptionalWord().subscribe(
+                (/*succes*/) => this.getNewOptionalWord(isDutch),
+                error => console.log(error)
+            );
+        } else {
+            this.wordService.skipOptionalEnglishWord().subscribe(
+                (/*succes*/) => this.getNewOptionalWord(isDutch),
+                error => console.log(error)
+            );
+        }
+    }
+
+    addWord(difficulty: number, language: string) {
         const word = {
-            word: this.optionalWord.word,
+            word: (language === 'NL') ? this.optionalWord.word : this.optionalEnglishWord.word,
             added_by: this.me.username,
             difficulty,
-            language: 'NL'
+            language
         };
         this.wordService.createNewWord(word).subscribe(
-            (/*succes*/) => this.getNewOptionalWord(),
+            (/*succes*/) => {
+                this.getNewOptionalWord(language === 'NL');
+            },
             error => console.log(error)
         );
     }
 
     submitRemoveWordForm(form) {
-        this.wordService.removeWord(form.value.word).subscribe(
-            () => null,
+        this.removeWord(form.value.word)
+    }
+
+    removeWord(word: string) {
+        this.wordService.removeWord(word).subscribe(
+            () => this.getLastTenUsedWords(),
             error => console.log(error)
         );
     }
