@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, Output, ViewChild} from '@angular/core';
-import {Engine, FreeCamera, HemisphericLight, Mesh, Scene, Vector3, SceneLoader} from '@babylonjs/core';
+import {Engine, FreeCamera, HemisphericLight, Mesh, Scene, Vector3, SceneLoader, ArcRotateCamera, Color3} from '@babylonjs/core';
 
 import "@babylonjs/loaders/glTF";
 
@@ -10,70 +10,85 @@ import "@babylonjs/loaders/glTF";
 })
 export class RenderComponent implements OnInit {
 
-  @ViewChild('canvas', {static: true}) canvas: ElementRef<HTMLCanvasElement>;
+    @ViewChild('canvas', {static: true}) canvas: ElementRef<HTMLCanvasElement>;
 
-  @Output() engine: Engine;
-  @Output() scene: Scene;
-  @Output() camera: FreeCamera;
+    @Output() engine: Engine;
+    @Output() scene: Scene;
+    @Output() camera: ArcRotateCamera;
 
-  constructor() { }
+    constructor() { }
 
-  ngOnInit(): void {
-    this.engine = new Engine(this.canvas.nativeElement, true);
-    this.scene = new Scene(this.engine);
+    ngOnInit(): void {
+        this.engine = new Engine(this.canvas.nativeElement, true);
+        this.scene = new Scene(this.engine);
 
-    // creating camera
-    this.camera = this.createCamera(this.scene);
+        // creating camera
+        this.camera = this.createCamera(this.scene);
 
-    // allow mouse deplacement
-    this.camera.attachControl(this.canvas.nativeElement, true);
+        // creating minimal scean
+        this.createScene(this.scene, this.canvas.nativeElement);
 
-    // creating minimal scean
-    this.createScene(this.scene, this.canvas.nativeElement);
+        // running babylonJS
+        this.engine.runRenderLoop(() => {
+            this.scene.render();
+        });
+    }
 
-    // running babylonJS
-    this.engine.runRenderLoop(() => {
-      this.scene.render();
-    });
-  }
+    createCamera(scene: Scene): ArcRotateCamera {
+        const camera = new ArcRotateCamera(
+            "camera",
+            Math.PI,
+            Math.PI / 4,
+            1,
+            Vector3.Zero(),
+            scene
+        );
+        camera.attachControl(this.canvas.nativeElement, true);
+        camera.wheelPrecision = 100;
 
-  createCamera(scene: Scene) {
-    const camera = new FreeCamera('camera1', new Vector3(-0.6, 0.6, 0.65), scene);
-    camera.setTarget(Vector3.Zero());
-    camera.minZ = 0.2
-    return camera;
-  }
+        camera.minZ = 0.3;
 
-createScene(scene: Scene, canvas: HTMLCanvasElement) {
-    const light = new HemisphericLight('light', new Vector3(0, 2, 0), scene);
-    light.intensity = 0.7;
+        camera.lowerRadiusLimit = .5;
+        camera.upperRadiusLimit = 3;
 
-    // const sphere = Mesh.CreateSphere('sphere', 16, 2, scene);
-    // sphere.position.y = 1;
-    //
-    // Mesh.CreateGround('ground', 6, 6, 2, scene);
-    SceneLoader.ImportMeshAsync('pion', "assets/models/", "pion.glb", scene).then((result) => {
-        console.log(result.meshes);
-        result.meshes.map((mesh) => {
-            // mesh.scalingDeterminant = 6;
-        })
-        const pion = scene.getMeshByName("pion");
-        pion.position.x = -0.16
-        pion.position.y = 0.15
-        pion.position.z = 0.0047
-    });
-    SceneLoader.ImportMeshAsync('board', "assets/models/", "board.glb", scene).then((result) => {
-        console.log(result.meshes);
-        result.meshes.map((mesh) => {
-            // mesh.scalingDeterminant = 6;
-        })
-        // const board = scene.getMeshByName("board");
-        // pion.scale.x = 4
-        // pion.scale.x = 4
-        // pion.scale.x = 4
-        // pion.scale.x = 4
-    });
+        camera.panningSensibility = 0;
 
-}
+        camera.useAutoRotationBehavior = true;
+        //
+        camera.autoRotationBehavior.idleRotationSpeed = 0.1;
+        camera.autoRotationBehavior.idleRotationSpinupTime = 1000;
+        camera.autoRotationBehavior.idleRotationWaitTime = 10000;
+        camera.autoRotationBehavior.zoomStopsAnimation = true;
 
+        return camera;
+    }
+
+
+    createScene(scene: Scene, canvas: HTMLCanvasElement) {
+        // const sphere = Mesh.CreateSphere('sphere', 16, 2, scene);
+        // sphere.position.y = 1;
+
+        SceneLoader.ImportMeshAsync('pion', "assets/models/", "pion.glb", scene).then((result) => {
+            const pion = scene.getMeshByName("pion");
+            pion.position.x = 0.16
+            pion.position.y = 0.0047
+            pion.position.z = 0.15
+        });
+        SceneLoader.ImportMeshAsync('board', "assets/models/", "board.glb", scene).then((result) => {
+            console.log(result.meshes);
+            result.meshes.map((mesh) => {
+                // mesh.scalingDeterminant = 6;
+            })
+        });
+        const light = new HemisphericLight('light', new Vector3(0, 2, 0), scene);
+        light.intensity = 0.7;
+
+        var options = {
+            groundColor: Color3.White(),
+            groundYBias: 0
+        };
+
+        let helper = scene.createDefaultEnvironment(options);
+        helper.ground.dispose();
+    }
 }
