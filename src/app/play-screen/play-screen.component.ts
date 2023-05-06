@@ -1,6 +1,7 @@
-﻿import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Game} from '../_models/game';
+﻿import {Component, Input, OnInit} from '@angular/core';
+import {Game, Player, Team} from '../_models/game';
 import {GameService} from '../_services/game.service';
+import {interval, Observable, Subscription} from 'rxjs';
 
 @Component({
   templateUrl: 'play-screen.component.html',
@@ -8,51 +9,43 @@ import {GameService} from '../_services/game.service';
 })
 export class PlayScreenComponent implements OnInit {
     @Input() game: Game;
-    @Output() update: EventEmitter<string> = new EventEmitter<string>();
+    intervalSource: Observable<number>;
+    intervalSubscription: Subscription;
+    my_time_left: number = 0;
+    other_time_left: number = 0;
 
     constructor(private gameService: GameService) {
     }
 
     ngOnInit() {
+        this.intervalSource = interval(100);
+        this.intervalSubscription = this.intervalSource.subscribe(() => this.update_time_lefts());
+    }
+
+    update_time_lefts() {
+        this.my_time_left = this.me().time_left();
+        this.other_time_left = this.game.currentPlayer().time_left();
     }
 
     ngOnDestroy() {
-    }
-
-    leaveGame() {
-        this.gameService.leaveGame().subscribe(
-          () => this.update.emit('update')
-        );
-    }
-
-    collectUpdates(event: string) {
-        if (event === 'update') {
-            this.update.emit(event);
-        }
+        this.intervalSubscription.unsubscribe();
     }
 
     myTeam() {
-        return this.game.teams.find(team => team.is_my_team);
+        return this.game.teams.find((team: Team) => team.is_my_team);
     }
 
     me() {
-        return this.myTeam().players.find(player => player.is_me);
+        return this.myTeam().players.find((player: Player) => player.is_me);
     }
 
     currentlyPlaying() {
-        return this.game.teams.find(t => t.currently_playing).players.find(p => p.currently_playing);
-    }
-
-    nextPlayer() {
-        this.gameService.completeTurn(1).subscribe(
-            () => this.update.emit('update'),
-            error => console.log(error)
-        );
+        return this.game.currentPlayer();
     }
 
     startReadingCard() {
         this.gameService.startReadingCard().subscribe(
-            () => this.update.emit('update'),
+            () => null,
             error => console.log(error)
         );
     }
@@ -65,7 +58,7 @@ export class PlayScreenComponent implements OnInit {
             }
         }
         this.gameService.completeTurn(answeredCorrect).subscribe(
-            () => this.update.emit('update'),
+            () => null,
             error => console.log(error)
         );
     }
@@ -77,9 +70,9 @@ export class PlayScreenComponent implements OnInit {
             return 'NOT_MY_TURN';
         } else if (me.state === 'PRE') {
             return 'BEFORE_READING_CARD';
-        } else if (me.state === 'REA' && this.me().time_left > 0) {
+        } else if (me.state === 'REA' && this.me().time_left() > 0) {
             return 'READING_CARD';
-        } else if (me.state === 'REA' && this.me().time_left <= 0) {
+        } else if (me.state === 'REA' && this.me().time_left() <= 0) {
             return 'FILLING_IN_SCORE';
         }
         return 'NOT_MY_TURN';
