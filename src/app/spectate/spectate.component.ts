@@ -1,10 +1,8 @@
-﻿import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, HostBinding} from '@angular/core';
+﻿import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Game} from '../_models/game';
 import {GameService} from '../_services/game.service';
 import {interval, Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {trigger, state, style, animate, transition} from '@angular/animations';
-import {Locations} from './locations';
 import {WebsocketService} from "../_services/websocket.service";
 
 
@@ -12,13 +10,6 @@ import {WebsocketService} from "../_services/websocket.service";
   templateUrl: 'spectate.component.html',
   styleUrls: ['spectate.component.css'],
   selector: 'spectate',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('team0location', Locations.team0location),
-    trigger('team1location', Locations.team1location),
-    trigger('team2location', Locations.team2location),
-    trigger('team3location', Locations.team3location),
-  ],
   providers: [WebsocketService]
 })
 export class SpectateComponent implements OnInit {
@@ -50,7 +41,6 @@ export class SpectateComponent implements OnInit {
             }
         );
     }
-
     ngOnDestroy() {
         this.intervalSubscription.unsubscribe();
         this.game_updates_subscription.unsubscribe();
@@ -61,7 +51,7 @@ export class SpectateComponent implements OnInit {
             || this.game.teams.find(t => t.currently_playing) == null) {
             return 0;
         }
-        return this.game.teams.find(t => t.currently_playing).players.find(p => p.currently_playing).time_left();
+        return this.game.currentPlayer().time_left();
     }
 
     loadGame() {

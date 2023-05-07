@@ -1,15 +1,1 @@
-﻿<div *ngIf="game && game.teams" class="row">
-  <div class="col s12">
-    <div style="position: relative; left: 0; top: 0;">
-      <img src="assets/images/board_v1.png" class="board"/>
-
-      <img *ngIf="game.teams.length > 0" src="assets/images/{{game.teams[0].pion_filename}}" class="pion" [@team0location]="'place'+game.teams[0].score">
-      <img *ngIf="game.teams.length > 1" src="assets/images/{{game.teams[1].pion_filename}}" class="pion" [@team1location]="'place'+game.teams[1].score">
-      <img *ngIf="game.teams.length > 2" src="assets/images/{{game.teams[2].pion_filename}}" class="pion" [@team2location]="'place'+game.teams[2].score">
-      <img *ngIf="game.teams.length > 3" src="assets/images/{{game.teams[3].pion_filename}}" class="pion" [@team3location]="'place'+game.teams[3].score">
-      <!--<img *ngFor="let team of game.teams; let i = index" src="assets/images/{{team.pion_filename}}" class="pion place{{team.score}}team{{i}}"/>
--->
-      <span class="timeleft">{{timeLeft}}</span>
-    </div>
-  </div>
-</div>
+﻿<old-viewer [game]="game" [timeLeft]="timeLeft"></old-viewer>
