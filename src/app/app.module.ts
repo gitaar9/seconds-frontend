@@ -19,8 +19,8 @@ import {AdminScreenComponent} from './admin-screen/admin-screen.component';
 import {EndScreenComponent} from './end-screen/end-screen.component';
 import {SpectateComponent} from './spectate/spectate.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {RenderComponent} from "./render/render.component";
 import {OldViewerComponent} from "./spectate/old-viewer/old-viewer.component";
+import {Viewer3dComponent} from "./spectate/viewer-3d/viewer-3d.component";
 
 @NgModule({
     imports: [
@@ -44,8 +44,8 @@ import {OldViewerComponent} from "./spectate/old-viewer/old-viewer.component";
         EndScreenComponent,
         AdminScreenComponent,
         SpectateComponent,
-        RenderComponent,
-        OldViewerComponent
+        OldViewerComponent,
+        Viewer3dComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
