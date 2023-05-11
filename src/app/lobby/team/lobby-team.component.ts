@@ -23,6 +23,7 @@ export class LobbyTeamComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('team:', this.team);
     }
 
     ngOnDestroy() {

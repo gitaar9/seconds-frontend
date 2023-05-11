@@ -93,7 +93,7 @@ export class GameComponent implements OnInit {
     checkWebsocketConnection() {
         /* This function checks if the websocket connection is still healthy and restart the connection if not */
         if (this.websocketService.ws)
-            console.log("Websocket readystate: ", this.websocketService.ws.readyState);
+            console.log("Websocket readystate: ", this.websocketService.ws.readyState, this.game);
         if (this.websocketService.ws == null || this.websocketService.ws.readyState === this.websocketService.ws.CLOSED) {
             if (this.game_updates_subscription)
                 this.game_updates_subscription.unsubscribe();
@@ -105,6 +105,7 @@ export class GameComponent implements OnInit {
         this.game_updates_subscription = this.websocketService.game_updates.subscribe((new_game_state: Game) => {
             new_game_state.updateWithIsMe(this.me);
             this.game = new_game_state;
+            // console.log(this.game);
         });
     }
 

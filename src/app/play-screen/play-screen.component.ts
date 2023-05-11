@@ -25,6 +25,7 @@ export class PlayScreenComponent implements OnInit {
     update_time_lefts() {
         this.my_time_left = this.me().time_left();
         this.other_time_left = this.game.currentPlayer().time_left();
+        // console.log(this.game);
     }
 
     ngOnDestroy() {

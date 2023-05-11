@@ -1,5 +1,5 @@
-﻿import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Game} from '../_models/game';
+﻿import {Component, OnInit} from '@angular/core';
+import {Game, Player} from '../_models/game';
 import {GameService} from '../_services/game.service';
 import {interval, Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -20,7 +20,7 @@ export class SpectateComponent implements OnInit {
     gameCode: string;
     timeLeft: number = 0;
 
-    constructor(private gameService: GameService, private route: ActivatedRoute, private cdr: ChangeDetectorRef,
+    constructor(private gameService: GameService, private route: ActivatedRoute,
                 private websocketService: WebsocketService) {
     }
 
@@ -33,10 +33,12 @@ export class SpectateComponent implements OnInit {
         this.intervalSubscription = this.intervalSource.subscribe(
             () => {
                 this.checkWebsocketConnection();
-                let currentPlayer = this.game.currentPlayer();
-                if (currentPlayer) {
-                    this.timeLeft = currentPlayer.time_left();
-                    this.cdr.detectChanges();
+                if (this.game) {
+                    let currentPlayer: Player = this.game.currentPlayer();
+                    if (currentPlayer) {
+                        this.timeLeft = currentPlayer.time_left();
+                        // console.log(this.timeLeft);
+                    }
                 }
             }
         );
@@ -59,7 +61,6 @@ export class SpectateComponent implements OnInit {
             this.gameService.spectateGame(this.gameCode).subscribe(
                 response => {
                     this.game = response;
-                    this.cdr.detectChanges();
                 },
                 error => {
                     this.game = null;
@@ -84,7 +85,6 @@ export class SpectateComponent implements OnInit {
         this.game_updates_subscription = this.websocketService.game_updates.subscribe((new_game_state: Game) => {
             console.log(new_game_state);
             this.game = new_game_state;
-            this.cdr.detectChanges();
         });
     }
 
