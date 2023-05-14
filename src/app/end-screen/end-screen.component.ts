@@ -14,6 +14,7 @@ export class EndScreenComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('endscreen:', this.game);
     }
 
     ngOnDestroy() {

@@ -1,7 +1,7 @@
 ﻿import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment.prod';
-import {Game} from '../_models/game';
+import {Game, Player} from '../_models/game';
 import {map} from 'rxjs/operators';
 
 
@@ -20,11 +20,11 @@ export class GameService {
     }
 
     createGame() {
-        return this.http.post<Game>(`${environment.apiUrl}/game/`, {}).pipe(map(GameService.addIsMyTeam));
+        return this.http.post<Game>(`${environment.apiUrl}/game/`, {}).pipe(map(GameService.addIsMyTeam)).pipe(map(Game.serialize));
     }
 
     getGame() {
-        return this.http.get<Game>(`${environment.apiUrl}/game/`).pipe(map(GameService.addIsMyTeam));
+        return this.http.get<Game>(`${environment.apiUrl}/game/`).pipe(map(GameService.addIsMyTeam)).pipe(map(Game.serialize));
     }
 
     spectateGame(gameCode: string, sortByPk = true) {
@@ -32,7 +32,7 @@ export class GameService {
             if (sortByPk) {
                 game.teams.sort((left, right) => left.id - right.id);
             }
-            return game;
+            return Game.serialize(game);
         }));
     }
 
@@ -41,7 +41,7 @@ export class GameService {
     }
 
     joinGame(code: string) {
-        return this.http.post<Game>(`${environment.apiUrl}/game/join_game/`, {code}).pipe(map(GameService.addIsMyTeam));
+        return this.http.post<Game>(`${environment.apiUrl}/game/join_game/`, {code}).pipe(map(GameService.addIsMyTeam)).pipe(map(Game.serialize));
     }
 
     startGame() {
@@ -57,7 +57,11 @@ export class GameService {
     }
 
     changeLanguage(language: string) {
-        return this.http.patch<Game>(`${environment.apiUrl}/game/update_game/`, {language});
+        return this.http.patch<Game>(`${environment.apiUrl}/game/update_game/`, {"language": language});
+    }
+
+    changeDifficulty(difficulty: string) {
+        return this.http.patch<Game>(`${environment.apiUrl}/game/update_game/`, {"difficulty": difficulty});
     }
 
 }

@@ -59,4 +59,11 @@ export class LobbyComponent implements OnInit {
             error => console.log(error)
         );
     }
+
+    changeDifficultyButton(difficulty: string) {
+        this.gameService.changeDifficulty(difficulty).subscribe(
+            () => null,
+            error => console.log(error)
+        )
+    }
 }

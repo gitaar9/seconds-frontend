@@ -31,11 +31,8 @@ export class WebsocketService {
         this.game_updates = <Subject<Game>>this.connect(CHAT_URL).pipe(
             map(
                 (response: MessageEvent): Game => {
-                    console.log(response.data);
                     let data = JSON.parse(response.data)
-                    if (!data)
-                        return null;
-                    return data.game;
+                    return (data && data.game) ? Game.serialize(data.game) : null;
                 }
             )
         );

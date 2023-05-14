@@ -1,0 +1,527 @@
+﻿
+/*Dutch color*/
+.switch label .lever::after {
+	background-color: #ff8c00;
+}
+.switch label .lever {
+  background-color: #ffb65a;
+}
+
+/*English color*/
+.switch label input[type="checkbox"]:checked + .lever::after {
+	background-color: #0073ff;
+}
+.switch label input[type="checkbox"]:checked + .lever {
+	/*background-color: #84c7c1;*/
+  background-color: #5aa4ff;
+}
+
+
+.board {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.pion {
+  position: absolute;
+  -webkit-transform-origin: left bottom;
+  -moz-transform-origin: left bottom;
+  -o-transform-origin: left bottom;
+  transform-origin: left bottom;
+}
+.timeleft {
+  position: absolute;
+  top: 30px;
+  left: 579px;
+  text-align: center;
+  width: 50px;
+  font-size: 2rem;
+}
+
+/* Team 0*/
+.place0team0 {
+  top: 466px;
+  left: 460px;
+  transform: scale(1);
+}
+.place1team0 {
+  top: 424px;
+  left: 381px;
+  transform: scale(0.98);
+}
+.place2team0 {
+  top: 399px;
+  left: 314px;
+  transform: scale(0.95);
+}
+.place3team0 {
+  top: 361px;
+  left: 232px;
+  transform: scale(0.9);
+}
+.place4team0 {
+  top: 325px;
+  left: 168px;
+  transform: scale(0.88);
+}
+.place5team0 {
+  top: 256px;
+  left: 187px;
+  transform: scale(0.83);
+}
+.place6team0 {
+  top: 203px;
+  left: 202px;
+  transform: scale(0.79);
+}
+.place7team0 {
+  top: 152px;
+  left: 154px;
+  transform: scale(0.74);
+}
+.place8team0 {
+  top: 99px;
+  left: 174px;
+  transform: scale(0.72);
+}
+.place9team0 {
+  top: 54px;
+  left: 213px;
+  transform: scale(0.69);
+}
+.place10team0 {
+  top: 32px;
+  left: 298px;
+  transform: scale(0.64);
+}
+.place11team0 {
+  top: 14px;
+  left: 373px;
+  transform: scale(0.62);
+}
+.place12team0 {
+  top: 1px;
+  left: 431px;
+  transform: scale(0.59);
+}
+.place13team0 {
+  top: 0px;
+  left: 727px;
+  transform: scale(0.59);
+}
+.place14team0 {
+  top: 14px;
+  left: 789px;
+  transform: scale(0.62);
+}
+.place15team0 {
+  top: 32px;
+  left: 866px;
+  transform: scale(0.64);
+}
+.place16team0 {
+  top: 56px;
+  left: 950px;
+  transform: scale(0.69);
+}
+.place17team0 {
+  top: 101px;
+  left: 989px;
+  transform: scale(0.72);
+}
+.place18team0 {
+  top: 152px;
+  left: 1004px;
+  transform: scale(0.74);
+}
+.place19team0 {
+  top: 208px;
+  left: 1028px;
+  transform: scale(0.79);
+}
+.place20team0 {
+  top: 253px;
+  left: 969px;
+  transform: scale(0.83);
+}
+.place21team0 {
+  top: 322px;
+  left: 989px;
+  transform: scale(0.88);
+}
+.place22team0 {
+  top: 365px;
+  left: 933px;
+  transform: scale(0.9);
+}
+.place23team0 {
+  top: 395px;
+  left: 856px;
+  transform: scale(0.95);
+}
+.place24team0 {
+  top: 427px;
+  left: 781px;
+  transform: scale(0.98);
+}
+.place25team0 {
+  top: 445px;
+  left: 690px;
+  transform: scale(1);
+}
+.place26team0 {
+  top: 310px;
+  left: 625px;
+  transform: scale(0.83);
+}
+.place27team0 {
+  top: 294px;
+  left: 667px;
+  transform: scale(0.82);
+}
+.place28team0 {
+  top: 284px;
+  left: 699px;
+  transform: scale(0.80);
+}
+.place29team0 {
+  top: 269px;
+  left: 733px;
+  transform: scale(0.78);
+}
+.place30team0 {
+  top: 255px;
+  left: 759px;
+  transform: scale(0.76);
+}
+
+
+/* Team 1*/
+.place0team1 {
+  top: 496px;
+  left: 442px;
+  transform: scale(1);
+}
+.place1team1 {
+  top: 456px;
+  left: 345px;
+  transform: scale(0.98);
+}
+.place2team1 {
+  top: 417px;
+  left: 268px;
+  transform: scale(0.95);
+}
+.place3team1 {
+  top: 381px;
+  left: 185px;
+  transform: scale(0.9);
+}
+.place4team1 {
+  top: 339px;
+  left: 117px;
+  transform: scale(0.88);
+}
+.place5team1 {
+  top: 265px;
+  left: 141px;
+  transform: scale(0.83);
+}
+.place6team1 {
+  top: 224px;
+  left: 195px;
+  transform: scale(0.79);
+}
+.place7team1 {
+  top: 156px;
+  left: 180px;
+  transform: scale(0.74);
+}
+.place8team1 {
+  top: 109px;
+  left: 203px;
+  transform: scale(0.72);
+}
+.place9team1 {
+  top: 67px;
+  left: 237px;
+  transform: scale(0.69);
+}
+.place10team1 {
+  top: 44px;
+  left: 316px;
+  transform: scale(0.64);
+}
+.place11team1 {
+  top: 26px;
+  left: 383px;
+  transform: scale(0.62);
+}
+.place12team1 {
+  top: 15px;
+  left: 447px;
+  transform: scale(0.59);
+}
+.place13team1 {
+  top: 8px;
+  left: 742px;
+  transform: scale(0.59);
+}
+.place14team1 {
+  top: 22px;
+  left: 812px;
+  transform: scale(0.62);
+}
+.place15team1 {
+  top: 44px;
+  left: 892px;
+  transform: scale(0.64);
+}
+.place16team1 {
+  top: 73px;
+  left: 972px;
+  transform: scale(0.69);
+}
+.place17team1 {
+  top: 113px;
+  left: 952px;
+  transform: scale(0.72);
+}
+.place18team1 {
+  top: 160px;
+  left: 972px;
+  transform: scale(0.74);
+}
+.place19team1 {
+  top: 236px;
+  left: 1035px;
+  transform: scale(0.79);
+}
+.place20team1 {
+  top: 277px;
+  left: 970px;
+  transform: scale(0.83);
+}
+.place21team1 {
+  top: 343px;
+  left: 979px;
+  transform: scale(0.88);
+}
+.place22team1 {
+  top: 379px;
+  left: 897px;
+  transform: scale(0.9);
+}
+.place23team1 {
+  top: 417px;
+  left: 877px;
+  transform: scale(0.95);
+}
+.place24team1 {
+  top: 454px;
+  left: 795px;
+  transform: scale(0.98);
+}
+.place25team1 {
+  top: 465px;
+  left: 655px;
+  transform: scale(1);
+}
+.place26team1 {
+  top: 330px;
+  left: 633px;
+  transform: scale(0.83);
+}
+.place27team1 {
+  top: 317px;
+  left: 661px;
+  transform: scale(0.82);
+}
+.place28team1 {
+  top: 301px;
+  left: 710px;
+  transform: scale(0.80);
+}
+.place29team1 {
+  top: 286px;
+  left: 732px;
+  transform: scale(0.78);
+}
+.place30team1 {
+  top: 267px;
+  left: 776px;
+  transform: scale(0.76);
+}
+
+.place0team2 {
+  top: 510px;
+  left: 450px;
+}
+
+.place0team3 {
+  top: 530px;
+  left: 480px;
+}
+
+.place0team4 {
+  top: 570px;
+  left: 480px;
+}
+
+
+/* Team 5*/
+.place0team5 {
+  top: 555px;
+  left: 430px;
+  transform: scale(1);
+}
+.place1team5 {
+  top: px;
+  left: px;
+  transform: scale(0.98);
+}
+.place2team5 {
+  top: px;
+  left: px;
+  transform: scale(0.95);
+}
+.place3team5 {
+  top: px;
+  left: px;
+  transform: scale(0.9);
+}
+.place4team5 {
+  top: px;
+  left: px;
+  transform: scale(0.88);
+}
+.place5team5 {
+  top: px;
+  left: px;
+  transform: scale(0.83);
+}
+.place6team5 {
+  top: px;
+  left: px;
+  transform: scale(0.79);
+}
+.place7team5 {
+  top: px;
+  left: px;
+  transform: scale(0.74);
+}
+.place8team5 {
+  top: px;
+  left: px;
+  transform: scale(0.72);
+}
+.place9team5 {
+  top: px;
+  left: px;
+  transform: scale(0.69);
+}
+.place10team5 {
+  top: px;
+  left: px;
+  transform: scale(0.64);
+}
+.place11team5 {
+  top: px;
+  left: px;
+  transform: scale(0.62);
+}
+.place12team5 {
+  top: px;
+  left: px;
+  transform: scale(0.59);
+}
+.place13team5 {
+  top: px;
+  left: px;
+  transform: scale(0.59);
+}
+.place14team5 {
+  top: px;
+  left: px;
+  transform: scale(0.62);
+}
+.place15team5 {
+  top: px;
+  left: px;
+  transform: scale(0.64);
+}
+.place16team5 {
+  top: px;
+  left: px;
+  transform: scale(0.69);
+}
+.place17team5 {
+  top: px;
+  left: px;
+  transform: scale(0.72);
+}
+.place18team5 {
+  top: px;
+  left: px;
+  transform: scale(0.74);
+}
+.place19team5 {
+  top: px;
+  left: px;
+  transform: scale(0.79);
+}
+.place20team5 {
+  top: px;
+  left: px;
+  transform: scale(0.83);
+}
+.place21team5 {
+  top: px;
+  left: px;
+  transform: scale(0.88);
+}
+.place22team5 {
+  top: px;
+  left: px;
+  transform: scale(0.9);
+}
+.place23team5 {
+  top: px;
+  left: px;
+  transform: scale(0.95);
+}
+.place24team5 {
+  top: px;
+  left: px;
+  transform: scale(0.98);
+}
+.place25team5 {
+  top: px;
+  left: px;
+  transform: scale(1);
+}
+.place26team5 {
+  top: px;
+  left: px;
+  transform: scale(0.83);
+}
+.place27team5 {
+  top: px;
+  left: px;
+  transform: scale(0.82);
+}
+.place28team5 {
+  top: px;
+  left: px;
+  transform: scale(0.80);
+}
+.place29team5 {
+  top: px;
+  left: px;
+  transform: scale(0.78);
+}
+.place30team5 {
+  top: px;
+  left: px;
+  transform: scale(0.76);
+}

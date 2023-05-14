@@ -2,7 +2,7 @@
 import {User} from '../_models';
 import {AuthenticationService, UserService} from '../_services';
 import {WordService} from '../_services/word.service';
-import {OptionalWord} from '../_models/word';
+import {OptionalWord, Word} from '../_models/word';
 
 
 @Component({ templateUrl: 'admin-screen.component.html' })
@@ -11,6 +11,7 @@ export class AdminScreenComponent implements OnInit, OnDestroy {
     optionalWord: OptionalWord;
     optionalEnglishWord: OptionalWord;
     stats: {};
+    lastTenUsedWords: Word[] = [];
 
     constructor(private authenticationService: AuthenticationService, private userService: UserService,
                 private wordService: WordService) {
@@ -26,6 +27,14 @@ export class AdminScreenComponent implements OnInit, OnDestroy {
         );
         this.getNewOptionalWord(true);
         this.getNewOptionalWord(false);
+        this.getLastTenUsedWords();
+    }
+
+    getLastTenUsedWords() {
+        this.wordService.getTenLastUsedWords().subscribe(
+            response => this.lastTenUsedWords = response,
+            error => console.log(error)
+        );
     }
 
     getNewOptionalWord(isDutch: boolean) {
@@ -72,8 +81,12 @@ export class AdminScreenComponent implements OnInit, OnDestroy {
     }
 
     submitRemoveWordForm(form) {
-        this.wordService.removeWord(form.value.word).subscribe(
-            () => null,
+        this.removeWord(form.value.word)
+    }
+
+    removeWord(word: string) {
+        this.wordService.removeWord(word).subscribe(
+            () => this.getLastTenUsedWords(),
             error => console.log(error)
         );
     }

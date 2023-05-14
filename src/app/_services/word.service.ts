@@ -30,6 +30,10 @@ export class WordService {
         return this.http.post<Word>(`${environment.apiUrl}/word/`, word);
     }
 
+    getTenLastUsedWords() {
+        return this.http.get<Word[]>(`${environment.apiUrl}/word/get_ten_last_used/`);
+    }
+
     removeWord(word: string) {
         return this.http.post<{}>(`${environment.apiUrl}/word/delete_by_string/`, {word});
     }
