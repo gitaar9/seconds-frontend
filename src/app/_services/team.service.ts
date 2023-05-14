@@ -13,7 +13,11 @@ export class TeamService {
     }
 
     changeName(id: number, name: string) {
-        return this.http.patch<Team>(`${environment.apiUrl}/team/${id}/`, {name});
+        return this.http.patch<Team>(`${environment.apiUrl}/team/${id}/`, {"name": name});
+    }
+
+    changePionFilename(id: number, pionFilename: string) {
+        return this.http.patch<Team>(`${environment.apiUrl}/team/${id}/`, {"pion_filename": pionFilename});
     }
 
     joinTeam(id: number) {

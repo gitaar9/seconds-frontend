@@ -54,6 +54,7 @@ export class Game {
     teams: Team[];
     state: string;
     language: string;
+    difficulty: string;
 
     public toString = () : string => {
         return `Game ${this.code} in state ${this.state}`;

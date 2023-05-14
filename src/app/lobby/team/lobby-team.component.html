@@ -1,4 +1,4 @@
-﻿<div class="card blue-grey darken-1">
+﻿<div class="card {{team.pion_filename}} darken-3">
   <div class="card-content white-text">
     <span class="card-title">{{team.name}}</span>
     <ul>
@@ -9,8 +9,8 @@
     </ul>
   </div>
   <div class="card-action">
-    <a *ngIf="!isMyTeam()" (click)="joinTeam()">Join team</a>
-    <a *ngIf="isMyTeam()" (click)="deleteTeam()">Delete team</a>
-    <a *ngIf="isMyTeam()" class="modal-trigger" data-target="change-team-name-modal" (click)="changeTeamName()">Change name</a>
+    <a *ngIf="!isMyTeam()" (click)="joinTeam()" class="white-text">Join team</a>
+    <a *ngIf="isMyTeam()" (click)="deleteTeam()" class="white-text">Delete team</a>
+    <a *ngIf="isMyTeam()" class="modal-trigger white-text" data-target="change-team-name-modal" (click)="changeTeamName()">Change name</a>
   </div>
 </div>

@@ -44,8 +44,8 @@ import {Viewer3dComponent} from "./spectate/viewer-3d/viewer-3d.component";
         EndScreenComponent,
         AdminScreenComponent,
         SpectateComponent,
-        OldViewerComponent,
-        Viewer3dComponent
+        Viewer3dComponent,
+        OldViewerComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

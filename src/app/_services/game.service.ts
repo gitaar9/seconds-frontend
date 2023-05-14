@@ -57,7 +57,11 @@ export class GameService {
     }
 
     changeLanguage(language: string) {
-        return this.http.patch<Game>(`${environment.apiUrl}/game/update_game/`, {language});
+        return this.http.patch<Game>(`${environment.apiUrl}/game/update_game/`, {"language": language});
+    }
+
+    changeDifficulty(difficulty: string) {
+        return this.http.patch<Game>(`${environment.apiUrl}/game/update_game/`, {"difficulty": difficulty});
     }
 
 }
