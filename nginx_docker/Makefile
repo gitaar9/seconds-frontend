@@ -1,5 +1,5 @@
 up:
-		docker run --name mynginx1 -p 80:80 --mount type=bind,source=/samsung_hdd/Files/Projects/seconds-frontend/dist/seconds-frontend,target=/data/www,readonly --mount type=bind,source=/samsung_hdd/Files/Projects/seconds-frontend/nginx_docker/default.conf,target=/etc/nginx/conf.d/default.conf,readonly -d nginx:1.24.0
+		docker run --name mynginx1 -p 80:80 --mount type=bind,source=/projects/seconds-frontend/dist/seconds-frontend,target=/data/www,readonly --mount type=bind,source=/projects/seconds-frontend/nginx_docker/default.conf,target=/etc/nginx/conf.d/default.conf,readonly -d nginx:1.24.0
 
 down:
 		docker stop  mynginx1
