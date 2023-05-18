@@ -361,7 +361,7 @@ export class Viewer3dComponent implements OnInit {
             else {
                 let position = new Vector3(
                     -0.18 + (Math.random() * 0.06 - 0.03),
-                    0.01,
+                    0.09,
                     0.17 + (Math.random() * 0.06 - 0.03)
                 )
                 new Pawn(this.pawns, this.scene, position, team.pion_filename, team.id);
@@ -390,16 +390,6 @@ export class Viewer3dComponent implements OnInit {
         scene.enablePhysics(new Vector3(0, -0.81, 0), physicsPlugin);
 
         this.createImposters(scene);
-
-        setTimeout(() => {
-            if (this.pawns[0].completed_constructor)
-                this.pawns[0].backflip();
-        }, 5000);
-        setTimeout(() => {
-            if (this.pawns[1].completed_constructor)
-                this.pawns[1].joyJump();
-        }, 6000);
-
     }
 
     createScene(engine: Engine, canvas: HTMLCanvasElement) {
